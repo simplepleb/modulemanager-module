@@ -1,0 +1,29 @@
+{
+    "name": "simplepleb/modulemanager-module",
+    "description": "Used to manage, install and configure Laravel modules",
+    "type": "laravel-module",
+    "version": "v1.0",
+    "license": ["GPL-3.0-or-later"],
+    "authors": [
+        {
+            "name": "SimplePleb",
+            "email": "plebeian.tribune@protonmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ModuleManager\\Providers\\ModuleManagerServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ModuleManager\\": ""
+        }
+    },
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,14 @@
+{
+    "name": "ModuleManager",
+    "alias": "modulemanager",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ModuleManager\\Providers\\ArticleServiceProvider",
+        "Modules\\ModuleManager\\Providers\\EventServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
