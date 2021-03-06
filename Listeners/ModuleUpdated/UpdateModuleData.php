@@ -20,11 +20,11 @@
  *
  */
 
-namespace Modules\ModuleManager\Listeners\PostUpdated;
+namespace Modules\Modulemanager\Listeners\PostUpdated;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Log;
-use Modules\ModuleManager\Events\ModuleUpdated;
+use Modules\Modulemanager\Events\ModuleUpdated;
 
 class UpdateModuleData implements ShouldQueue
 {

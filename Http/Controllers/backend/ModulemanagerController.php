@@ -1,21 +1,21 @@
 <?php
 
-namespace Modules\ModuleManager\Http\Controllers\Backend;
+namespace Modules\Modulemanager\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
-use Modules\ModuleManager\Entities\MModule;
+use Modules\Modulemanager\Entities\MModule;
 use Modules\Thememanager\Entities\SiteTheme;
 
-class ModuleManagerController extends Controller
+class ModulemanagerController extends Controller
 {
 
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'ModuleManager';
+        $this->module_title = 'Modulemanager';
 
         // module name
         $this->module_name = 'modulemanager';
@@ -27,7 +27,7 @@ class ModuleManagerController extends Controller
         $this->module_icon = 'fas fa-file-alt';
 
         // module model name, path
-        $this->module_model = "Modules\ModuleManager\Entities\MModule";
+        $this->module_model = "Modules\Modulemanager\Entities\MModule";
     }
 
     /**

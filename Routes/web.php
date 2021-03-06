@@ -12,7 +12,7 @@
 */
 /*
 Route::prefix('modulemanager')->group(function() {
-    Route::get('/', 'ModuleManagerController@index');
+    Route::get('/', 'ModulemanagerController@index');
 });
 */
 
@@ -22,7 +22,7 @@ Route::prefix('modulemanager')->group(function() {
 *
 * --------------------------------------------------------------------
 */
-Route::group(['namespace' => '\Modules\ModuleManager\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'admin'], function () {
+Route::group(['namespace' => '\Modules\Modulemanager\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'admin'], function () {
     /*
     * These routes need view-backend permission
     * (good if you want to allow more than one group in the backend,
@@ -38,7 +38,7 @@ Route::group(['namespace' => '\Modules\ModuleManager\Http\Controllers\Backend', 
      * ---------------------------------------------------------------------
      */
     $module_name = 'modulemanager';
-    $controller_name = 'ModuleManagerController';
+    $controller_name = 'ModulemanagerController';
     Route::get("$module_name/index_list", ['as' => "$module_name.index_list", 'uses' => "$controller_name@index_list"]);
     Route::get("$module_name/index_data", ['as' => "$module_name.index_data", 'uses' => "$controller_name@index_data"]);
     Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);

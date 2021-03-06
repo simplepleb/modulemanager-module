@@ -1,16 +1,16 @@
 <?php
 
-namespace Modules\ModuleManager\Providers;
+namespace Modules\Modulemanager\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
-class ModuleManagerServiceProvider extends ServiceProvider
+class ModulemanagerServiceProvider extends ServiceProvider
 {
     /**
      * @var string $moduleName
      */
-    protected $moduleName = 'ModuleManager';
+    protected $moduleName = 'Modulemanager';
 
     /**
      * @var string $moduleNameLower
@@ -31,10 +31,10 @@ class ModuleManagerServiceProvider extends ServiceProvider
 
         // adding global middleware
         $kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
-        $kernel->pushMiddleware('Modules\ModuleManager\Http\Middleware\GenerateMenus');
+        $kernel->pushMiddleware('Modules\Modulemanager\Http\Middleware\GenerateMenus');
 
         // register commands
-        $this->registerCommands('\Modules\ModuleManager\Console');
+        $this->registerCommands('\Modules\Modulemanager\Console');
     }
 
     /**

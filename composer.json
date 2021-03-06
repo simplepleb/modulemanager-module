@@ -13,7 +13,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\ModuleManager\\Providers\\ModuleManagerServiceProvider"
+                "Modules\\Modulemanager\\Providers\\ModulemanagerServiceProvider"
             ],
             "aliases": {
 
@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\ModuleManager\\": ""
+            "Modules\\Modulemanager\\": ""
         }
     },
     "minimum-stability": "dev"

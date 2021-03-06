@@ -20,7 +20,7 @@
  *
  */
 
-namespace Modules\ModuleManager\Http\Middleware;
+namespace Modules\Modulemanager\Http\Middleware;
 
 use Closure;
 

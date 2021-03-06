@@ -1,12 +1,12 @@
 {
-    "name": "ModuleManager",
+    "name": "Modulemanager",
     "alias": "modulemanager",
     "description": "",
     "keywords": [],
     "priority": 0,
     "providers": [
-        "Modules\\ModuleManager\\Providers\\ModuleManagerServiceProvider",
-        "Modules\\ModuleManager\\Providers\\EventServiceProvider"
+        "Modules\\Modulemanager\\Providers\\ModulemanagerServiceProvider",
+        "Modules\\Modulemanager\\Providers\\EventServiceProvider"
     ],
     "aliases": {},
     "files": [],

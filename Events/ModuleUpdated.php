@@ -20,10 +20,10 @@
  *
  */
 
-namespace Modules\ModuleManager\Events;
+namespace Modules\Modulemanager\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Modules\ModuleManager\Entities\MModule;
+use Modules\Modulemanager\Entities\MModule;
 
 class ModuleUpdated
 {

@@ -20,11 +20,11 @@
  *
  */
 
-namespace Modules\ModuleManager\Listeners\PostCreated;
+namespace Modules\Modulemanager\Listeners\PostCreated;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Log;
-use Modules\ModuleManager\Events\ModuleCreated;
+use Modules\Modulemanager\Events\ModuleCreated;
 
 
 class CreateModuleData implements ShouldQueue

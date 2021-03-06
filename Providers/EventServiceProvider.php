@@ -20,18 +20,18 @@
  *
  */
 
-namespace Modules\ModuleManager\Providers;
+namespace Modules\Modulemanager\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
-        'Modules\ModuleManager\Events\ModuleCreated' => [
-            'Modules\ModuleManager\Listeners\ModuleCreated\CreateModuleData',
+        'Modules\Modulemanager\Events\ModuleCreated' => [
+            'Modules\Modulemanager\Listeners\ModuleCreated\CreateModuleData',
         ],
-        'Modules\ModuleManager\Events\ModuleUpdated' => [
-            'Modules\ModuleManager\Listeners\ModuleUpdated\UpdateModuleData',
+        'Modules\Modulemanager\Events\ModuleUpdated' => [
+            'Modules\Modulemanager\Listeners\ModuleUpdated\UpdateModuleData',
         ]
     ];
 }
