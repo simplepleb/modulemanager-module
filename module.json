@@ -5,8 +5,7 @@
     "keywords": [],
     "priority": 0,
     "providers": [
-        "Modules\\Modulemanager\\Providers\\ModulemanagerServiceProvider",
-        "Modules\\Modulemanager\\Providers\\EventServiceProvider"
+        "Modules\\Modulemanager\\Providers\\ModulemanagerServiceProvider"
     ],
     "aliases": {},
     "files": [],
