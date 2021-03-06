@@ -5,9 +5,14 @@
     "keywords": [],
     "priority": 0,
     "providers": [
-        "Modules\\Modulemanager\\Providers\\ModulemanagerServiceProvider"
+        "Modules\\Modulemanager\\Providers\\ModulemanagerServiceProvider",
+        "Modules\\Modulemanager\\Providers\\EventServiceProvider"
     ],
     "aliases": {},
     "files": [],
-    "requires": []
+    "requires": [],
+    "minimumCoreVersion": "",
+    "title": "",
+    "version":,
+    "author": ""
 }
