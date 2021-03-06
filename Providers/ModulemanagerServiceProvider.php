@@ -3,6 +3,7 @@
 namespace Modules\Modulemanager\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Symfony\Component\Finder\Finder;
 use Illuminate\Database\Eloquent\Factory;
 
 class ModulemanagerServiceProvider extends ServiceProvider
