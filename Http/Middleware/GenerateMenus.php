@@ -38,19 +38,60 @@ class GenerateMenus
     {
         \Menu::make('admin_sidebar', function ($menu) {
 
-            // comments
-            $menu->add('<i class="fas fa-spray-can c-sidebar-nav-icon"></i> Modules', [
+            // Articles Dropdown
+            $modules_menu = $menu->add('<i class="c-sidebar-nav-icon fas fa-file-alt"></i> Modules', [
+                'class' => 'c-sidebar-nav-dropdown',
+            ])
+                ->data([
+                    'order'         => 103,
+                    'activematches' => [
+                        'admin/modulemanager*',
+                    ],
+                    'permission' => ['view_posts', 'view_categories'],
+                ]);
+            $modules_menu->link->attr([
+                'class' => 'c-sidebar-nav-dropdown-toggle',
+                'href'  => '#',
+            ]);
+
+            $modules_menu->add('<i class="c-sidebar-nav-icon fas fa-file-alt"></i> List', [
                 'route' => 'backend.modulemanager.index',
                 'class' => 'c-sidebar-nav-item',
             ])
                 ->data([
-                    'order' => 102,
-                    'activematches' => ['admin/modulemanager*'],
-                    'permission' => ['view_comments'],
+                    'order'         => 104,
+                    'activematches' => 'admin/modulemanager',
+                    'permission'    => ['edit_posts'],
                 ])
                 ->link->attr([
-                    'class' => 'c-sidebar-nav-link',
+                    'class' => "c-sidebar-nav-link",
                 ]);
+            // Submenu: Posts
+            $modules_menu->add('<i class="c-sidebar-nav-icon fas fa-file-alt"></i> Builder', [
+                'route' => 'backend.module_builder.builder.create',
+                'class' => 'c-sidebar-nav-item',
+            ])
+                ->data([
+                    'order'         => 105,
+                    'activematches' => 'admin/modulemanager/create',
+                    'permission'    => ['edit_posts'],
+                ])
+                ->link->attr([
+                    'class' => "c-sidebar-nav-link",
+                ]);
+            // Submenu: Categories
+            /*$modules_menu->add('<i class="c-sidebar-nav-icon fas fa-sitemap"></i> Categories', [
+                'route' => 'backend.categories.index',
+                'class' => 'c-sidebar-nav-item',
+            ])
+                ->data([
+                    'order'         => 83,
+                    'activematches' => 'admin/categories*',
+                    'permission'    => ['edit_categories'],
+                ])
+                ->link->attr([
+                    'class' => "c-sidebar-nav-link",
+                ]);*/
         })->sortBy('order');
 
         return $next($request);

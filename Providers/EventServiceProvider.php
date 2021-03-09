@@ -27,10 +27,10 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
-        'Modules\Modulemanager\Events\ModuleCreated' => [
+        'Modules\Modulemanager\Events\CryptoCreated' => [
             'Modules\Modulemanager\Listeners\ModuleCreated\CreateModuleData',
         ],
-        'Modules\Modulemanager\Events\ModuleUpdated' => [
+        'Modules\Modulemanager\Events\CryptoUpdated' => [
             'Modules\Modulemanager\Listeners\ModuleUpdated\UpdateModuleData',
         ]
     ];

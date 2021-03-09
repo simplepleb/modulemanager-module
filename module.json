@@ -1,7 +1,7 @@
 {
     "name": "Modulemanager",
     "alias": "modulemanager",
-    "description": "",
+    "description": "Used to manage, install and configure Laravel modules",
     "keywords": [],
     "priority": 0,
     "providers": [

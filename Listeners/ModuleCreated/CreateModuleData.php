@@ -20,7 +20,7 @@
  *
  */
 
-namespace Modules\Modulemanager\Listeners\PostCreated;
+namespace Modules\Modulemanager\Listeners\ModuleCreated;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Log;

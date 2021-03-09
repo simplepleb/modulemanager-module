@@ -9,7 +9,7 @@ class MModule extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
+    protected $fillable = ['name','slug','settings'];
 
     protected static function newFactory()
     {

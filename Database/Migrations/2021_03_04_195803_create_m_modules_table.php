@@ -15,7 +15,9 @@ class CreateMModulesTable extends Migration
     {
         Schema::create('m_modules', function (Blueprint $table) {
             $table->id();
-
+            $table->string('name');
+            $table->string('slug')->nullable();
+            $table->json('settings')->nullable();
             $table->timestamps();
         });
     }

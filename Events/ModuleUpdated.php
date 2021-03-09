@@ -23,7 +23,7 @@
 namespace Modules\Modulemanager\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Modules\Modulemanager\Entities\MModule;
+use Modules\Modulemanager\Entities\CryptoCurrencies;
 
 class ModuleUpdated
 {
@@ -36,7 +36,7 @@ class ModuleUpdated
      *
      * @return void
      */
-    public function __construct(MModule $mmodule)
+    public function __construct(CryptoCurrencies $mmodule)
     {
         $this->mmodule = $mmodule;
     }

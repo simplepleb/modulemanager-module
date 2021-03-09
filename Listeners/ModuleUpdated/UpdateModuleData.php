@@ -20,7 +20,7 @@
  *
  */
 
-namespace Modules\Modulemanager\Listeners\PostUpdated;
+namespace Modules\Modulemanager\Listeners\ModuleUpdated;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Log;
@@ -49,6 +49,6 @@ class UpdateModuleData implements ShouldQueue
     {
         $mmodule = $event->mmodule;
 
-        Log::debug('Listeners: UpdatePostData');
+        Log::debug('Listeners: UpdateModuleData');
     }
 }

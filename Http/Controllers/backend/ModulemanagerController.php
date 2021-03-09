@@ -6,8 +6,12 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
+use Auth;
+use Carbon\Carbon;
+use Flash;
+use Log;
+use Modules\Modulemanager\Entities\CryptoCurrencies;
 use Modules\Modulemanager\Entities\MModule;
-use Modules\Thememanager\Entities\SiteTheme;
 
 class ModulemanagerController extends Controller
 {
@@ -36,7 +40,46 @@ class ModulemanagerController extends Controller
      */
     public function index()
     {
-        return view('modulemanager::index');
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'List';
+
+        $$module_name = MModule::paginate();
+        $mmodules = $module_model::get();
+        // If no themes in the db lets refresh from file system
+        /*if( $mmodules->isEmpty() ) {
+            self::refresh();
+            $themes = $module_model::get();
+        }*/
+
+
+        $active = array();
+        $enabled = \Module::allEnabled();
+        foreach( $enabled as $an){
+            $active[] = $an->getName();
+        }
+        // dd( $active );
+
+        $disabled = \Module::allDisabled();
+        foreach( $disabled as $an){
+            $in_active[] = $an->getName();
+        }
+        // dd( $disabled );
+
+
+
+        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+
+        return view(
+            "modulemanager::backend.index",
+            compact('module_title', 'module_name', "$module_name", 'module_icon', 'module_name_singular', 'module_action','mmodules', 'in_active', 'active')
+        );
     }
 
     /**
@@ -128,21 +171,21 @@ class ModulemanagerController extends Controller
                 $module_setings = $vals[0];
                 unset($vals);
 
-                $module_status = file_get_contents( base_path('modules_statuses') );
+                $module_status = file_get_contents( base_path('modules_statuses.json') );
                 $module_status = '['.$module_status.']';
                 $vals = json_decode($module_status);
                 $module_status = $vals[0];
 
                 // dd( $vals->slug );
-                $mmodule = MModule::where('slug', $module_setings->slug)->first();
+                $mmodule = MModule::where('slug', $module_setings->alias)->first();
                 if( !$mmodule ) {
                     $mmodule  = MModule::updateOrCreate(
                         [
-                            'slug' => $module_setings->slug
+                            'slug' => $module_setings->alias
                         ],
                         [
                             'name' => $module_setings->name,
-                            'settings' => json_encode($module_setings),
+                            'settings' => '['.json_encode($module_setings).']',
                             'active' => 0
                         ]
                     );
