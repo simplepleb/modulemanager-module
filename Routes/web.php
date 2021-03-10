@@ -45,7 +45,12 @@ Route::group(['namespace' => '\Modules\Modulemanager\Http\Controllers\Backend', 
     Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
     Route::get("$module_name/disable", ['as' => "$module_name.disable", 'uses' => "$controller_name@disable"]);
     Route::get("$module_name/refresh", ['as' => "$module_name.refresh", 'uses' => "$controller_name@refresh"]);
+    Route::get("$module_name/update_module/{module_name}", ['as' => "$module_name.update_module", 'uses' => "$controller_name@artisanUpdate"]);
     Route::get("$module_name/settings/{name}", ['as' => "$module_name.settings", 'uses' => "$controller_name@settings"]);
+
+    Route::get("$module_name/disable_module/{module_name}", ['as' => "$module_name.disable_module", 'uses' => "$controller_name@disable"]);
+    Route::get("$module_name/enable_module/{module_name}", ['as' => "$module_name.enable_module", 'uses' => "$controller_name@enable"]);
+    Route::get("$module_name/delete_module/{module_name}", ['as' => "$module_name.delete_module", 'uses' => "$controller_name@deleteModule"]);
 
     Route::resource("$module_name", "$controller_name");
     Route::resource("$module_name"."/builder", "ModuleBuilderController", ['as' => 'module_builder']);

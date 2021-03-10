@@ -45,19 +45,40 @@
                         <h5 class="card-title">{{ ucwords($settings->name) }}&nbsp;{{--<small>by: @if($settings->web)<a href="{{ $settings->web }}" target="_blank">@endif {{ $settings->author }}@if($settings->web)</a> @endif</small>--}}</h5>
                         <p class="card-text">{{ $settings->description }}</p>
                         <div class="row">
+
+                            <div class="col-2"></div>
                             <div class="col">
+
+                                    <div class="btn-toolbar mb-3" role="toolbar" aria-label="Module Controls">
+                                        <div class="btn-group " role="group" aria-label="Manage">
+                                            @if( in_array($settings->name, $active ) )
+                                                <a href="{{route("backend.$module_name.disable_module", $settings->name)}}" ><button class="btn btn-warning" type="button"><i data-toggle="tooltip" title="Disable" class="fas fa-ban"></i></button></a>
+                                            @else
+                                                <a href="{{route("backend.$module_name.enable_module", $settings->name)}}" ><button class="btn btn-success" type="button"><i data-toggle="tooltip" title="Enable"  class="fas fa-check-double"></i></button></a>
+                                            @endif
+                                            <a href="{{route("backend.$module_name.update_module", $settings->name)}}" ><button class="btn btn-primary" type="button"><i data-toggle="tooltip" title="Update Module"  class="fas fa-upload"></i> </button></a>
+                                            <a href="{{route("backend.$module_name.delete_module", $settings->name)}}" ><button class="btn btn-danger" type="button"><i data-toggle="tooltip" title="Delete Module"  class="fas fa-stop-circle"></i> </button></a>
+                                            <a href="{{route("backend.$module_name.delete_module", $settings->name)}}" ><button class="btn btn-primary" type="button"><i data-toggle="tooltip" title="Manage Module"  class="fas fa-user-cog"></i> </button></a>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="col-2"></div>
+
+
+                            {{--<div class="col">
                                 @if( in_array($settings->name, $active ) )
-                                    <a href="#" class="btn btn-sm btn-warning {{--@if($theme->active) disabled @endif--}}"><i class="fas fa-check-double"></i> &nbsp;Disable</a>
+                                    <a href="{{route("backend.$module_name.disable_module", $settings->name)}}" class="btn btn-sm btn-warning "><i class="fas fa-ban"></i> &nbsp;Disable</a>
                                 @else
-                                    <a href="#" class="btn btn-sm btn-success {{--@if($theme->active) disabled @endif--}}"><i class="fas fa-check-double"></i> &nbsp;Enable</a>
+                                    <a href="{{route("backend.$module_name.enable_module", $settings->name)}}" class="btn btn-sm btn-success "><i class="fas fa-check-double"></i> &nbsp;Enable</a>
                                 @endif
                             </div>
                             <div class="col">
-                                <a href="#" class="btn btn-sm btn-primary">Update &nbsp;<i class="fas fa-upload"></i></a>
+                                <a href="{{route("backend.$module_name.update_module", $settings->name)}}" class="btn btn-sm btn-primary">Update &nbsp;<i class="fas fa-upload"></i></a>
+                                <a href="{{route("backend.$module_name.delete_module", $settings->name)}}" class="btn btn-sm btn-danger">Delete &nbsp;<i class="fas fa-remove"></i></a>
                             </div>
                             <div class="col">
                                 <a href="#" class="btn btn-sm btn-primary">Manage &nbsp;<i class="fas fa-user-cog"></i></a>
-                            </div>
+                            </div>--}}
                         </div>
 
 

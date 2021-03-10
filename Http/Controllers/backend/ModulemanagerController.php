@@ -13,6 +13,9 @@ use Log;
 use Modules\Modulemanager\Entities\CryptoCurrencies;
 use Modules\Modulemanager\Entities\MModule;
 
+use Symfony\Component\Console\Output\BufferedOutput;
+
+
 class ModulemanagerController extends Controller
 {
 
@@ -204,6 +207,129 @@ class ModulemanagerController extends Controller
         // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return redirect("admin/$module_name");
+    }
+
+    public function artisanUpdate($module_name) {
+
+        // \Module::update($module_name);
+
+        $msg = null;
+        $suc_msg = null;
+        try {
+            $output = new BufferedOutput;
+            $returned = \Artisan::call('module:update '.$module_name, array(), $output );
+            $suc_msg = $output->fetch();
+        }catch (Exception $e){
+            $msg = $e->getMessage();
+        }
+
+        if( $msg ){
+            Flash::error("<i class='fas fa-stop'></i> $msg")->important();
+        }
+        else {
+            Flash::success("<i class='fas fa-check'></i> $suc_msg")->important();
+        }
+
+        // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return redirect("admin/modulemanager");
+    }
+
+    public function disable($module_name) {
+
+        $msg = null;
+        $suc_msg = null;
+        try {
+            $output = new BufferedOutput;
+            $returned = \Artisan::call('module:disable '.$module_name, array(), $output );
+            $suc_msg = $output->fetch();
+        }catch (Exception $e){
+            $msg = $e->getMessage();
+        }
+
+
+        if( $msg ){
+            Flash::error("<i class='fas fa-stop'></i> $msg")->important();
+        }
+        else {
+            Flash::success("<i class='fas fa-check'></i> $suc_msg")->important();
+        }
+
+        // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return redirect("admin/modulemanager");
+
+    }
+
+    public function enable($module_name) {
+
+        $msg = null;
+        $suc_msg = null;
+        try {
+            $output = new BufferedOutput;
+            $returned = \Artisan::call('module:enable '.$module_name, array(), $output );
+            $suc_msg = $output->fetch();
+        }catch (Exception $e){
+            $msg = $e->getMessage();
+        }
+
+
+        if( $msg ){
+            Flash::error("<i class='fas fa-stop'></i> $msg")->important();
+        }
+        else {
+            Flash::success("<i class='fas fa-check'></i> $suc_msg")->important();
+        }
+
+        // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return redirect("admin/modulemanager");
+
+    }
+
+    public function deleteModule($module_name) {
+
+        $msg = null;
+        $suc_msg = null;
+        $module = \Module::find($module_name);
+        $protected = ['Article','Comment','Tag','Thememanager','Modulemanager','Cryptocurrencies'];
+        if( in_array($module_name, $protected) ) {
+            Flash::error("<i class='fas fa-stop'></i> Cannot Delete Protected Module")->important();
+            return redirect("admin/modulemanager");
+        }
+        try {
+
+            if( $module ){
+                $module->delete();
+                MModule::where('slug', $module_name)->delete();
+                $suc_msg = 'Deleted Module';
+            }
+            else {
+                \Module::enable($module_name);
+                MModule::where('slug', $module_name)->delete();
+                $module->delete();
+                $suc_msg = 'Deleted Disabled Module';
+            }
+
+            /*$output = new BufferedOutput;
+            $returned = \Artisan::call('module:enable '.$module_name, array(), $output );
+            $suc_msg = $output->fetch();*/
+        }catch (Exception $e){
+            $msg = $e->getMessage();
+        }
+
+
+        if( $msg ){
+            Flash::error("<i class='fas fa-stop'></i> $msg")->important();
+        }
+        else {
+            Flash::success("<i class='fas fa-check'></i> $suc_msg")->important();
+        }
+
+        // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return redirect("admin/modulemanager");
+
     }
 
 }

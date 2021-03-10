@@ -34,15 +34,46 @@
             <!--/.row-->
 
             <hr>
-
+            {{ html()->form('POST', route("backend.module_builder.builder.store"))->class('form')->open() }}
             <div class="row mt-4">
                 <div class="col">
-                    {{ html()->form('POST', route("backend.$module_name.store"))->class('form')->open() }}
-
+                    <div class="card">
+                        <div class="card-header"><i class="fa fa-info"></i> Module Details</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Module Name</label>
+                                        <input class="form-control" type="text" name="module_name">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Description</label>
+                                        <input class="form-control" type="text" name="module_description">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col">
 
                     <div class="card">
-                        <div class="card-header"><i class="fa fa-align-justify"></i> Module Fields</div>
+                        <div class="card-header"><i class="fa fa-align-justify"></i> Module Database</div>
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Table Name</label>
+                                        <input class="form-control" type="text" name="table_name">
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <table id="fields_tbl" class="table table-responsive-sm table-striped">
                                 <thead>
                                 <tr>
@@ -143,8 +174,6 @@
                         </div>
                     </div>
 
-
-
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -160,10 +189,9 @@
                         </div>
                     </div>
 
-                    {{ html()->form()->close() }}
-
                 </div>
             </div>
+            {{ html()->form()->close() }}
         </div>
 
         <div class="card-footer">

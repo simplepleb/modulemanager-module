@@ -10,6 +10,8 @@ use Auth;
 use Carbon\Carbon;
 use Flash;
 use Log;
+use Modules\Modulemanager\Entities\MModule;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 
 class ModuleBuilderController extends Controller
@@ -66,7 +68,80 @@ class ModuleBuilderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $msg = null;
+        $suc_msg = null;
+        $output = new BufferedOutput;
+        $modelName = Str::studly($request->table_name);
+
+        /**
+         * Make the Module
+         */
+        try {
+
+            $returned = \Artisan::call('module:make '.$request->module_name, array(), $output );
+            /*$suc_msg = $output->fetch();
+            dd( $suc_msg );*/
+
+        }catch (Exception $e){
+
+            $msg = $e->getMessage();
+        }
+
+        /**
+         * Make the Model
+         */
+        try {
+            $returned = \Artisan::call('module:make-model', array('model' => $modelName,'module' => $request->module_name,'--fillable' => 'field_one,field_two'), $output );
+
+        }catch (Exception $e){
+            $msg = $e->getMessage();
+        }
+
+        /**
+         * Make the Migration
+         */
+        try {
+            $returned = \Artisan::call('module:make-migration', array('name' => 'create_'.$request->table_name.'_table','module' => $request->module_name), $output );
+
+        }catch (Exception $e){
+            $msg = $e->getMessage();
+        }
+
+        $suc_msg = $output->fetch();
+        $suc_msg = str_replace(base_path(), 'File: ',$suc_msg);
+
+        $description = $request->module_description;
+        if( !empty($description )){
+
+            $module_filename = base_path('Modules/'.$request->module_name.'/module.json');
+            $composer_filename = base_path('Modules/'.$request->module_name.'/composer.json');
+
+            $module_json = file_get_contents($module_filename);
+            $module_json = str_replace('"description": "",', '"description": "'.$description.'",',$module_json);
+            file_put_contents($module_filename,$module_json);
+
+            $composer_json = file_get_contents($composer_filename);
+            $composer_json = str_replace('"description": "",', '"description": "'.$description.'",',$composer_json);
+            file_put_contents($composer_filename,$composer_json);
+
+        }
+
+        /**
+         * All finished send back the correct session message
+         */
+        if( $msg ){
+            Flash::error("<i class='fas fa-stop'></i> $msg")->important();
+        }
+        else {
+            Flash::success("<i class='fas fa-check'></i> $suc_msg")->important();
+
+            $refresh = new ModulemanagerController();
+            $refresh->refresh();
+        }
+
+        // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return redirect("admin/modulemanager");
     }
 
     /**
@@ -110,5 +185,28 @@ class ModuleBuilderController extends Controller
         //
     }
 
+    public function generateModule(Request $request){
+
+        $msg = null;
+        $suc_msg = null;
+        try {
+            $output = new BufferedOutput;
+            $returned = \Artisan::call('module:make '.$request->module_name, array(), $output );
+            $suc_msg = $output->fetch();
+        }catch (Exception $e){
+            $msg = $e->getMessage();
+        }
+
+        if( $msg ){
+            Flash::error("<i class='fas fa-stop'></i> $msg")->important();
+        }
+        else {
+            Flash::success("<i class='fas fa-check'></i> $suc_msg")->important();
+        }
+
+        // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return redirect("admin/modulemanager");
+    }
 
 }
