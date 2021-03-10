@@ -10,10 +10,14 @@
             "email": "plebeian.tribune@protonmail.com"
         }
     ],
+    "require": {
+        "php": "^7.3.0",
+        "nwidart/laravel-modules": "^8.0"
+    },
     "extra": {
         "laravel": {
             "providers": [
-                "CryptocurrenciesServiceProvider"
+                "Modules\\Modulemanager\\Providers\\ModulemanagerServiceProvider"
             ],
             "aliases": {
 
