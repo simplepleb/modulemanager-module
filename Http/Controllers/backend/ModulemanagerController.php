@@ -54,12 +54,6 @@ class ModulemanagerController extends Controller
 
         $$module_name = MModule::paginate();
         $mmodules = $module_model::get();
-        // If no themes in the db lets refresh from file system
-        /*if( $mmodules->isEmpty() ) {
-            self::refresh();
-            $themes = $module_model::get();
-        }*/
-
 
         $active = array();
         $enabled = \Module::allEnabled();
@@ -72,12 +66,6 @@ class ModulemanagerController extends Controller
         foreach( $disabled as $an){
             $in_active[] = $an->getName();
         }
-        // dd( $disabled );
-
-
-
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
-
 
         return view(
             "modulemanager::backend.index",
@@ -145,6 +133,13 @@ class ModulemanagerController extends Controller
         //
     }
 
+    /**
+     * Refreshes the module settings and ensures every module (folder) is in the DB
+     *
+     * @author SimplePleb
+     * @since v1.0
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function refresh()
     {
         $module_title = $this->module_title;
@@ -189,29 +184,26 @@ class ModulemanagerController extends Controller
                         [
                             'name' => $module_setings->name,
                             'settings' => '['.json_encode($module_setings).']',
-                            'active' => 0
+                            /*'active' => 0*/
                         ]
                     );
                 }
 
-                // dd( $theme );
             }
-
-            // dd( $name );
-            //echo "filename: $file : filetype: " . filetype($file) . "<br />";
-
         }
 
         Flash::success("<i class='fas fa-check'></i> Modules Refreshed")->important();
 
-        // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
-
         return redirect("admin/$module_name");
     }
 
+    /**
+     * Updates the module (dependencies)
+     *
+     * @param $module_name
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function artisanUpdate($module_name) {
-
-        // \Module::update($module_name);
 
         $msg = null;
         $suc_msg = null;
@@ -292,8 +284,12 @@ class ModulemanagerController extends Controller
         $msg = null;
         $suc_msg = null;
         $module = \Module::find($module_name);
+
+        /** @var  $protected List of Modules we do not want to allow deletion */
         $protected = ['Article','Comment','Tag','Thememanager','Modulemanager','Cryptocurrencies'];
+
         if( in_array($module_name, $protected) ) {
+
             Flash::error("<i class='fas fa-stop'></i> Cannot Delete Protected Module")->important();
             return redirect("admin/modulemanager");
         }

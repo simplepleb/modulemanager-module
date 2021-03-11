@@ -81,11 +81,13 @@
                                     <th>Type</th>
                                     <th>Size</th>
                                     <th>Nullable</th>
+                                    <th>Fillable</th>
+                                    <th>DataTable</th>
                                     <th>Default</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr id="1">
                                     <td><input name="field_name[]" type="text" class="form-control"></td>
                                     <td>
                                         <select name="field_type[]" class="form-control">
@@ -95,32 +97,31 @@
                                             <option value="text">Integer</option>
                                             <option value="text">DateTime</option>--}}
                                             <option title="Only Once Per Table" value="text">bigIncrements</option>
-                                            <option value="text">bigInteger</option>
-                                            <option value="text">binary</option>
-                                            <option value="text">boolean</option>
-                                            <option value="text">char</option>
-                                            <option value="text">dateTimeTz</option>
-                                            <option value="text">dateTime</option>
-                                            <option value="text">date</option>
-                                            <option value="text">decimal</option>
-                                            <option value="text">double</option>
-                                            <option value="text">enum</option>
-                                            <option value="text">float</option>
-                                            <option value="text">foreignId</option>
-                                            <option value="text">geometryCollection</option>
-                                            <option value="text">geometry</option>
-                                            <option value="text">id</option>
-                                            <option value="text">increments</option>
-                                            <option value="text">integer</option>
-                                            <option value="text">ipAddress</option>
-                                            <option value="text">json</option>
-                                            <option value="text">jsonb</option>
-                                            <option value="text">lineString</option>
-                                            <option value="text">longText</option>
-                                            <option value="text">macAddress</option>
-                                            <option value="text">mediumIncrements</option>
-                                            <option value="text">mediumInteger</option>
-                                            <option value="text">mediumText</option>
+                                            <option value="bigInteger">bigInteger</option>
+                                            <option value="binary">binary</option>
+                                            <option value="boolean">boolean</option>
+                                            <option value="char">char</option>
+                                            <option value="dateTimeTz">dateTimeTz</option>
+                                            <option value="dateTime">dateTime</option>
+                                            <option value="date">date</option>
+                                            <option value="decimal">decimal</option>
+                                            <option value="double">double</option>
+                                            <option value="enum">enum</option>
+                                            <option value="float">float</option>
+                                            <option value="foreignId">foreignId</option>
+                                            <option value="geometryCollection">geometryCollection</option>
+                                            <option value="geometry">geometry</option>
+                                            <option value="increments">increments</option>
+                                            <option value="integer">integer</option>
+                                            <option value="ipAddress">ipAddress</option>
+                                            <option value="json">json</option>
+                                            <option value="jsonb">jsonb</option>
+                                            <option value="lineString">lineString</option>
+                                            <option value="longText">longText</option>
+                                            <option value="macAddress">macAddress</option>
+                                            <option value="mediumIncrements">mediumIncrements</option>
+                                            <option value="mediumInteger">mediumInteger</option>
+                                            <option value="mediumText">mediumText</option>
                                             {{--<option value="text">morphs</option>
                                             <option value="text">multiLineString</option>
                                             <option value="text">multiPoint</option>
@@ -132,36 +133,41 @@
                                             <option value="text">polygon</option>--}}
                                             {{--<option value="text">rememberToken</option>--}}
                                             {{--<option value="text">set</option>--}}
-                                            <option value="text">smallIncrements</option>
-                                            <option value="text">smallInteger</option>
-                                            <option value="text">softDeletesTz</option>
-                                            <option value="text">softDeletes</option>
-                                            <option value="text">string</option>
+                                            <option value="smallIncrements">smallIncrements</option>
+                                            <option value="smallInteger">smallInteger</option>
+                                            <option value="softDeletesTz">softDeletesTz</option>
+                                            <option value="softDeletes">softDeletes</option>
+                                            <option value="string">string</option>
                                             <option value="text">text</option>
-                                            <option value="text">timeTz</option>
-                                            <option value="text">time</option>
-                                            <option value="text">timestampTz</option>
-                                            <option value="text">timestamp</option>
-                                            <option value="text">timestampsTz</option>
-                                            <option value="text">timestamps</option>
-                                            <option value="text">tinyIncrements</option>
-                                            <option value="text">tinyInteger</option>
-                                            <option value="text">unsignedBigInteger</option>
-                                            <option value="text">unsignedDecimal</option>
-                                            <option value="text">unsignedInteger</option>
-                                            <option value="text">unsignedMediumInteger</option>
-                                            <option value="text">unsignedSmallInteger</option>
-                                            <option value="text">unsignedTinyInteger</option>
-                                            <option value="text">uuidMorphs</option>
-                                            <option value="text">uuid</option>
-                                            <option value="text">year</option>
+                                            <option value="timeTz">timeTz</option>
+                                            <option value="time">time</option>
+                                            <option value="timestampTz">timestampTz</option>
+                                            <option value="timestamp">timestamp</option>
+                                            <option value="timestampsTz">timestampsTz</option>
+                                            <option value="tinyIncrements">tinyIncrements</option>
+                                            <option value="tinyInteger">tinyInteger</option>
+                                            <option value="unsignedBigInteger">unsignedBigInteger</option>
+                                            <option value="unsignedDecimal">unsignedDecimal</option>
+                                            <option value="unsignedInteger">unsignedInteger</option>
+                                            <option value="unsignedMediumInteger">unsignedMediumInteger</option>
+                                            <option value="unsignedSmallInteger">unsignedSmallInteger</option>
+                                            <option value="unsignedTinyInteger">unsignedTinyInteger</option>
+                                            <option value="uuidMorphs">uuidMorphs</option>
+                                            <option value="uuid">uuid</option>
+                                            <option value="year">year</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control" name="field_size[]">
+                                        <input name="field_size[]" type="number" class="form-control" >
                                     </td>
                                     <td>
                                         <input name="field_nullable[]" value="1" type="checkbox" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input name="field_fillable[]" value="1" type="checkbox" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input name="field_datatable[]" value="1" type="checkbox" class="form-control">
                                     </td>
                                     <td><input name="field_default[]" type="text" class="form-control"></td>
                                 </tr>
@@ -207,10 +213,22 @@
 @push('after-scripts')
     <script type="text/javascript">
         $(document).ready(function() {
+            var cnt = 1;
             $("#add").click(function() {
+                cnt++
                 $('#fields_tbl tbody>tr:last').clone(true).insertAfter('#fields_tbl tbody>tr:last');
                 $('#fields_tbl tbody>tr:last input').val('');
-                /*$("#fields_tbl tbody>tr:last").each(function() {this.reset();});*/
+                $('#fields_tbl tbody>tr:last').attr('id', cnt);
+                // $("#fields_tbl tbody>tr:last input[name='field_size[]']").val('999');
+                /*$("#fields_tbl tbody>tr:last input[name='field_name[]']").attr('name', 'field_name['+cnt+']').val('');
+                $("#fields_tbl tbody>tr:last input[name='field_type[]']").attr('name', 'field_type['+cnt+']').val('');
+                $("#fields_tbl tbody>tr:last input[name='field_size[]']").attr('name', 'field_size['+cnt+']').val('');
+                $("#fields_tbl tbody>tr:last input[name='field_nullable[]']").attr('name', 'field_nullable['+cnt+']').val('');
+                $("#fields_tbl tbody>tr:last input[name='field_fillable[]']").attr('name', 'field_fillable['+cnt+']').val('');
+                $("#fields_tbl tbody>tr:last input[name='field_datatable[]']").attr('name', 'field_datatable['+cnt+']').val('');
+                $("#fields_tbl tbody>tr:last input[name='field_default[]']").attr('name', 'field_default['+cnt+']').val('');*/
+                // $("#fields_tbl tbody>tr:last").each(function() {this.reset();});
+                //$('tbody>tr:last')
                 return false;
             });
         });
