@@ -1,7 +1,10 @@
-# modulemanager-module
+# Module Management for Laravel
 A Module for managing Laravel modules settings, status etc
 
-[![Latest Stable Version](https://poser.pugx.org/simplepleb/themes/v)](//packagist.org/packages/simplepleb/themes) [![Total Downloads](https://poser.pugx.org/simplepleb/themes/downloads)](//packagist.org/packages/simplepleb/themes) [![Latest Unstable Version](https://poser.pugx.org/simplepleb/themes/v/unstable)](//packagist.org/packages/simplepleb/themes) [![License](https://poser.pugx.org/simplepleb/themes/license)](//packagist.org/packages/simplepleb/themes)
+This package gives you everything you need to build and manage CRUD modules with ease. Fill in the builder form and the entire module is built for you. Once you click 'Build' you will be redirected to the index page of the new module and immediately be able to add and edit items to the new module. 
+
+
+[![Latest Stable Version](https://poser.pugx.org/simplepleb/modulemanager-module/v)](//packagist.org/packages/simplepleb/modulemanager-module) [![Total Downloads](https://poser.pugx.org/simplepleb/modulemanager-module/downloads)](//packagist.org/packages/simplepleb/modulemanager-module) [![Latest Unstable Version](https://poser.pugx.org/simplepleb/modulemanager-module/v/unstable)](//packagist.org/packages/simplepleb/modulemanager-module) [![License](https://poser.pugx.org/simplepleb/modulemanager-module/license)](//packagist.org/packages/simplepleb/modulemanager-module)
 
 # Dashboard Screenshot
 
@@ -10,4 +13,7 @@ A Module for managing Laravel modules settings, status etc
 
 # Builder Screenshot
 
-![Screen Shot 2021-03-10 at 6 41 31 AM](https://user-images.githubusercontent.com/79759974/110624099-c2865780-816b-11eb-9f06-3296069dff9c.png)
+![Screen Shot 2021-03-11 at 8 17 51 AM](https://user-images.githubusercontent.com/79759974/110793210-5a567500-8242-11eb-8849-68e0bc033a57.png)
+
+This module manager makes full use of the great [Module Package by Nwidart](https://nwidart.com/laravel-modules/v6/introduction)
+
