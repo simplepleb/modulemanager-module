@@ -39,7 +39,7 @@ class GenerateMenus
         \Menu::make('admin_sidebar', function ($menu) {
 
             // Articles Dropdown
-            $modules_menu = $menu->add('<i class="c-sidebar-nav-icon fas fa-file-alt"></i> Modules', [
+            $modules_menu = $menu->add('<i class="c-sidebar-nav-icon cil-puzzle"></i> Modules', [
                 'class' => 'c-sidebar-nav-dropdown',
             ])
                 ->data([
@@ -54,7 +54,7 @@ class GenerateMenus
                 'href'  => '#',
             ]);
 
-            $modules_menu->add('<i class="c-sidebar-nav-icon fas fa-file-alt"></i> List', [
+            $modules_menu->add('List', [
                 'route' => 'backend.modulemanager.index',
                 'class' => 'c-sidebar-nav-item',
             ])
@@ -67,7 +67,7 @@ class GenerateMenus
                     'class' => "c-sidebar-nav-link",
                 ]);
             // Submenu: Posts
-            $modules_menu->add('<i class="c-sidebar-nav-icon fas fa-file-alt"></i> Builder', [
+            $modules_menu->add('Builder', [
                 'route' => 'backend.module_builder.builder.create',
                 'class' => 'c-sidebar-nav-item',
             ])

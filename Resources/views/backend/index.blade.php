@@ -49,7 +49,7 @@
                             <div class="col-2"></div>
                             <div class="col">
 
-                                    <div class="btn-toolbar mb-3" role="toolbar" aria-label="Module Controls">
+                                    <div class="btn-toolbar mb-3 float-right" role="group" aria-label="Module Controls">
                                         <div class="btn-group " role="group" aria-label="Manage">
                                             @if( in_array($settings->name, $active ) )
                                                 <a href="{{route("backend.$module_name.disable_module", $settings->name)}}" ><button class="btn btn-warning" type="button"><i data-toggle="tooltip" title="Disable" class="fas fa-ban"></i></button></a>
@@ -58,7 +58,7 @@
                                             @endif
                                             <a href="{{route("backend.$module_name.update_module", $settings->name)}}" ><button class="btn btn-primary" type="button"><i data-toggle="tooltip" title="Update Module"  class="fas fa-upload"></i> </button></a>
                                             <a href="{{route("backend.$module_name.delete_module", $settings->name)}}" ><button class="btn btn-danger" type="button"><i data-toggle="tooltip" title="Delete Module"  class="fas fa-stop-circle"></i> </button></a>
-                                            <a href="{{route("backend.$module_name.delete_module", $settings->name)}}" ><button class="btn btn-primary" type="button"><i data-toggle="tooltip" title="Manage Module"  class="fas fa-user-cog"></i> </button></a>
+                                            <a href="{{route("backend.$module_name.settings", $settings->name)}}" ><button class="btn btn-primary" type="button"><i data-toggle="tooltip" title="Manage Module"  class="fas fa-user-cog"></i> </button></a>
                                         </div>
                                     </div>
                             </div>
@@ -107,4 +107,35 @@
         </div>
     </div>
 </div>
+
+    <style>
+
+        #control_module .btn-sm{
+            position: relative;
+            vertical-align: center;
+            margin: 0px;
+            height: 100x;
+            padding: 20px 20px;
+            font-size: 4px;
+            color: white;
+            text-align: center;
+            text-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);
+            background: #62b1d0;
+            border: 0;
+            border-bottom: 3px solid #9FE8EF;
+            cursor: pointer;
+            -webkit-box-shadow: inset 0 -3px #9FE8EF;
+            box-shadow: inset 0 -3px #9FE8EF;
+        }
+
+        #control_module .btn-sm:active {
+            top: 2px;
+            outline: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+        #control_module .btn-sm:hover {
+            background: #45E1E8;
+        }
+    </style>
 @stop

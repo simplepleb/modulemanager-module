@@ -328,4 +328,25 @@ class ModulemanagerController extends Controller
 
     }
 
+    public function settings($name){
+
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'Settings';
+
+        $$module_name_singular = MModule::where('slug', $name)->first();
+        //dd( $settings );
+
+        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return view(
+            "modulemanager::backend.settings",
+            compact( 'module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular")
+        );
+    }
 }
