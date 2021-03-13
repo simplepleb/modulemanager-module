@@ -477,8 +477,8 @@ class ModuleBuilderController extends Controller
         $dtStub = base_path('Modules/Modulemanager/Resources/views/stubs/StubDataTableEditor.php');
 
         $dtContents = file_get_contents($dtStub);
-        $dtContents = str_replace('%%moduleName%%', $moduleName, $dtContents);
-        $dtContents = str_replace('%%modelName%%', $modelName, $dtContents);
+        $dtContents = str_replace('MODULE_NAME', $moduleName, $dtContents);
+        $dtContents = str_replace('MODEL_NAME', $modelName, $dtContents);
 
         $dtFile = fopen($dataClassFile, 'w');
         fwrite($dtFile, $dtContents);

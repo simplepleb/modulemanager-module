@@ -1,15 +1,15 @@
 <?php
 
-namespace Modules\%%moduleName%%\DataTables;
+namespace Modules\MODULE_NAME\DataTables;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
-use Modules\%%moduleName%%\Entities\%%modelName%%;
+use Modules\MODULE_NAME\Entities\MODEL_NAME;
 use Yajra\DataTables\DataTablesEditor;
 
-class %%modelName%%DataTableEditor extends DataTablesEditor
+class MODULE_NAMEDataTableEditor extends DataTablesEditor
 {
-    protected $model = %%modelName%%::class;
+    protected $model = MODEL_NAME::class;
 
     /**
      * Get create action validation rules.
