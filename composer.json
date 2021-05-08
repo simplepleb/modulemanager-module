@@ -2,7 +2,7 @@
     "name": "simplepleb/modulemanager-module",
     "description": "Used to manage, install and configure Laravel modules",
     "type": "laravel-module",
-    "version": "v1.0.1",
+    "version": "v1.0.2",
     "license": ["GPL-3.0-or-later"],
     "authors": [
         {
@@ -13,6 +13,17 @@
     "require": {
         "php": "^7.3.0",
         "nwidart/laravel-modules": "^8.0"
+    },
+    "suggest": {
+        "spatie/laravel-permission": "To be able to set access by role and permissions",
+        "joshbrw/laravel-module-installer": "Makes installing and updating modules simple",
+        "simplepleb/menumaker-module": "Build dynamic menus for your front and back end",
+        "simplepleb/thememanager-module": "Manage themes for front-facing and admin panels",
+        "simplepleb/article-module": "Complete article post and category module",
+        "simplepleb/comment-module": "Add comments to site content",
+        "simplepleb/content-module": "Manage site content and front-facing pages",
+        "simplepleb/tag-module": "Add tags and taggables to content",
+        "simplepleb/themes": "A library of starter themes for your laravel project"
     },
     "extra": {
         "laravel": {
