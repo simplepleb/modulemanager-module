@@ -42,46 +42,26 @@
                 <div class="card">
                     {{--<img class="card-img-top" src="{{ $img_src }}" alt="Theme Name">--}}
                     <div class="card-body">
-                        <h5 class="card-title">{{ ucwords($settings->name) }}&nbsp;{{--<small>by: @if($settings->web)<a href="{{ $settings->web }}" target="_blank">@endif {{ $settings->author }}@if($settings->web)</a> @endif</small>--}}</h5>
-                        <p class="card-text">{{ $settings->description }}</p>
-                        <div class="row">
-
-                            <div class="col-2"></div>
-                            <div class="col">
-
-                                    <div class="btn-toolbar mb-3 float-right" role="group" aria-label="Module Controls">
-                                        <div class="btn-group " role="group" aria-label="Manage">
-                                            @if( in_array($settings->name, $active ) )
-                                                <a href="{{route("backend.$module_name.disable_module", $settings->name)}}" ><button class="btn btn-warning" type="button"><i data-toggle="tooltip" title="Disable" class="fas fa-ban"></i></button></a>
-                                            @else
-                                                <a href="{{route("backend.$module_name.enable_module", $settings->name)}}" ><button class="btn btn-success" type="button"><i data-toggle="tooltip" title="Enable"  class="fas fa-check-double"></i></button></a>
-                                            @endif
-                                            <a href="{{route("backend.$module_name.update_module", $settings->name)}}" ><button class="btn btn-primary" type="button"><i data-toggle="tooltip" title="Update Module"  class="fas fa-upload"></i> </button></a>
-                                            <a href="{{route("backend.$module_name.delete_module", $settings->name)}}" ><button class="btn btn-danger" type="button"><i data-toggle="tooltip" title="Delete Module"  class="fas fa-stop-circle"></i> </button></a>
-                                            <a href="{{route("backend.$module_name.settings", $settings->name)}}" ><button class="btn btn-primary" type="button"><i data-toggle="tooltip" title="Manage Module"  class="fas fa-user-cog"></i> </button></a>
-                                        </div>
-                                    </div>
-                            </div>
-                            <div class="col-2"></div>
-
-
-                            {{--<div class="col">
+                        <h5 class="card-title">{{ ucwords($settings->name) }}
+                            @if ( in_array($settings->name, $protected_modules ))
+                                <small class="float-right"><i class="fas fa-info-circle text-blue"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Protected Module"></i> </small>
+                            &nbsp;@endif
+                        </h5>
+                        <div class="card-body">{{ $settings->description }}</div>
+                        <div class="card-footer">
+                            <div class="btn-group mr-2 bg-primary align-content-center " role="group" aria-label="First group" style="margin:0px auto;">
                                 @if( in_array($settings->name, $active ) )
-                                    <a href="{{route("backend.$module_name.disable_module", $settings->name)}}" class="btn btn-sm btn-warning "><i class="fas fa-ban"></i> &nbsp;Disable</a>
+                                    <a href="{{route("backend.$module_name.disable_module", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __('Disable') }}</button></a>
                                 @else
-                                    <a href="{{route("backend.$module_name.enable_module", $settings->name)}}" class="btn btn-sm btn-success "><i class="fas fa-check-double"></i> &nbsp;Enable</a>
+                                    <a href="{{route("backend.$module_name.enable_module", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __('Enable') }}</button></a>
+                                @endif
+                                <a href="{{route("backend.$module_name.update_module", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __ ('Update') }}</button></a>
+                                @if ( !in_array($settings->name, $protected_modules ))
+                                    <button onclick="deleteConfirmation( '{{route("backend.$module_name.delete_module", $settings->name)}}' )"  class="btn btn-sm btn-primary" type="button">{{ __('Delete') }}</button>
+                                    <a href="{{route("backend.$module_name.settings", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __('Settings') }}</button></a>
                                 @endif
                             </div>
-                            <div class="col">
-                                <a href="{{route("backend.$module_name.update_module", $settings->name)}}" class="btn btn-sm btn-primary">Update &nbsp;<i class="fas fa-upload"></i></a>
-                                <a href="{{route("backend.$module_name.delete_module", $settings->name)}}" class="btn btn-sm btn-danger">Delete &nbsp;<i class="fas fa-remove"></i></a>
-                            </div>
-                            <div class="col">
-                                <a href="#" class="btn btn-sm btn-primary">Manage &nbsp;<i class="fas fa-user-cog"></i></a>
-                            </div>--}}
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -139,3 +119,41 @@
         }
     </style>
 @stop
+
+@push('after-scripts')
+    <script type="text/javascript">
+        function deleteConfirmation(url) {
+            swal({
+                title: "{{ __('Delete Module') }}?",
+                text: "{{ __('Are you sure you want to delete, this cannot be undone!') }}",
+                type: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "{{ __('Yes, delete it') }}!",
+                cancelButtonText: "{{ __('No, cancel') }}!",
+                reverseButtons: !0
+            }).then(function (e) {
+                if (e.value === true) {
+                    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: {_token: CSRF_TOKEN},
+                        dataType: 'JSON',
+                        success: function (results) {
+                            if (results.success === true) {
+                                swal("{{ __('Done') }}!", results.message, "success");
+                                location.reload();
+                            } else {
+                                swal("{{ __('Error') }}!", results.message, "error");
+                            }
+                        }
+                    });
+                } else {
+                    e.dismiss;
+                }
+            }, function (dismiss) {
+                return false;
+            })
+        }
+    </script>
+@endpush

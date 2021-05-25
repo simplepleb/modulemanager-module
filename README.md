@@ -24,6 +24,8 @@ By default, the settings form will edit and save the ``` Module\{ModuleName}\Con
 
 If the module does not have its own settings method the ModuleManager default will display the form.
 
+If a module config file has values that are arrays() - add them to the protected_modules
+
 # Dashboard Screenshot
 
 ![Screen Shot 2021-03-10 at 6 40 58 AM](https://user-images.githubusercontent.com/79759974/110624073-bb5f4980-816b-11eb-98bb-cfc0481c295c.png)

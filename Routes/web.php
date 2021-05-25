@@ -50,7 +50,7 @@ Route::group(['namespace' => '\Modules\Modulemanager\Http\Controllers\Backend', 
 
     Route::get("$module_name/disable_module/{module_name}", ['as' => "$module_name.disable_module", 'uses' => "$controller_name@disable"]);
     Route::get("$module_name/enable_module/{module_name}", ['as' => "$module_name.enable_module", 'uses' => "$controller_name@enable"]);
-    Route::get("$module_name/delete_module/{module_name}", ['as' => "$module_name.delete_module", 'uses' => "$controller_name@deleteModule"]);
+    Route::post("$module_name/delete_module/{module_name}", ['as' => "$module_name.delete_module", 'uses' => "$controller_name@deleteModule"]);
 
     Route::resource("$module_name", "$controller_name");
     Route::resource("$module_name"."/builder", "ModuleBuilderController", ['as' => 'module_builder']);

@@ -32,7 +32,7 @@
 
 
     <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/v/dt/jqc-1.12.4/moment-2.18.1/dt-1.10.23/b-1.6.5/sl-1.3.1/datatables.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/editor/js/dataTables.editor.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/vendor/editor/js/dataTables.editor.min.js?id={{ time() }}"></script>
     {{--<script type="text/javascript" charset="utf-8" src="/editor/js/table.crypto_currencies.js?id={{ time() }}"></script>--}}
     <script type="text/javascript">
 

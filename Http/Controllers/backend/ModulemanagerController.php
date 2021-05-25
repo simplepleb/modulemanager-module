@@ -13,11 +13,16 @@ use Log;
 use Modules\Modulemanager\Entities\CryptoCurrencies;
 use Modules\Modulemanager\Entities\MModule;
 
+
 use Symfony\Component\Console\Output\BufferedOutput;
+
+
 
 
 class ModulemanagerController extends Controller
 {
+
+    private $protected_modules = [];
 
     public function __construct()
     {
@@ -35,6 +40,8 @@ class ModulemanagerController extends Controller
 
         // module model name, path
         $this->module_model = "Modules\Modulemanager\Entities\MModule";
+
+        $this->protected_modules = ['Article','Comment','Tag','Thememanager','Modulemanager','VirtualWallet'];
     }
 
     /**
@@ -62,6 +69,8 @@ class ModulemanagerController extends Controller
         }
         // dd( $active );
 
+        $protected_modules = $this->protected_modules;
+
         $disabled = \Module::allDisabled();
         foreach( $disabled as $an){
             $in_active[] = $an->getName();
@@ -69,7 +78,7 @@ class ModulemanagerController extends Controller
 
         return view(
             "modulemanager::backend.index",
-            compact('module_title', 'module_name', "$module_name", 'module_icon', 'module_name_singular', 'module_action','mmodules', 'in_active', 'active')
+            compact('module_title', 'module_name', "$module_name", 'module_icon', 'module_name_singular', 'module_action','mmodules', 'in_active', 'active','protected_modules')
         );
     }
 
@@ -112,6 +121,30 @@ class ModulemanagerController extends Controller
         return view('modulemanager::edit');
     }
 
+
+    public static function arrayStripTags($array)
+    {
+        $result = array();
+
+        foreach ($array as $key => $value) {
+            // Don't allow tags on key either, maybe useful for dynamic forms.
+            $key = strip_tags($key);
+
+            // If the value is an array, we will just recurse back into the
+            // function to keep stripping the tags out of the array,
+            // otherwise we will set the stripped value.
+            if (is_array($value)) {
+                $result[$key] = static::arrayStripTags($value);
+            } else {
+                // I am using strip_tags(), you may use htmlentities(),
+                // also I am doing trim() here, you may remove it, if you wish.
+                $result[$key] = trim(strip_tags($value));
+            }
+        }
+
+        return $result;
+    }
+
     /**
      * Update the specified resource in storage.
      * @param Request $request
@@ -120,7 +153,28 @@ class ModulemanagerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $input = $request->except(['_token', '_method']);
+
+        // Because the config is auto-loaded - we need to make sure there are no hacks (Xss/html)
+        $input = self::arrayStripTags($input);
+
+        $output = '
+        <?php
+            return [
+
+            ';
+
+        foreach( $input as $key => $value){
+            $output .= "'$key' => '$value',
+            ";
+        }
+        $output .= '
+
+        ];';
+
+        dd( $output );
+       dd( $request->except(['_token', '_method']) );
     }
 
     /**
@@ -161,32 +215,34 @@ class ModulemanagerController extends Controller
             if( filetype($file) == 'dir'){
                 $name = str_replace($path,'',$file);
                 // Theme Settings
-                $settings = file_get_contents($path.$name.'/module.json');
-                $settings = preg_replace( "/\r|\n/", "", $settings );
-                $settings = '['.$settings.']';
-                $vals = json_decode($settings);
+                if( file_exists($path.$name.'/module.json')){
+                    $settings = file_get_contents($path.$name.'/module.json');
+                    $settings = preg_replace( "/\r|\n/", "", $settings );
+                    $settings = '['.$settings.']';
+                    $vals = json_decode($settings);
 
-                $module_setings = $vals[0];
-                unset($vals);
+                    $module_setings = $vals[0];
+                    unset($vals);
 
-                $module_status = file_get_contents( base_path('modules_statuses.json') );
-                $module_status = '['.$module_status.']';
-                $vals = json_decode($module_status);
-                $module_status = $vals[0];
+                    $module_status = file_get_contents( base_path('modules_statuses.json') );
+                    $module_status = '['.$module_status.']';
+                    $vals = json_decode($module_status);
+                    $module_status = $vals[0];
 
-                // dd( $vals->slug );
-                $mmodule = MModule::where('slug', $module_setings->alias)->first();
-                if( !$mmodule ) {
-                    $mmodule  = MModule::updateOrCreate(
-                        [
-                            'slug' => $module_setings->alias
-                        ],
-                        [
-                            'name' => $module_setings->name,
-                            'settings' => '['.json_encode($module_setings).']',
-                            /*'active' => 0*/
-                        ]
-                    );
+                    // dd( $vals->slug );
+                    $mmodule = MModule::where('slug', $module_setings->alias)->first();
+                    if( !$mmodule ) {
+                        $mmodule  = MModule::updateOrCreate(
+                            [
+                                'slug' => $module_setings->alias
+                            ],
+                            [
+                                'name' => $module_setings->name,
+                                'settings' => '['.json_encode($module_setings).']',
+                                /*'active' => 0*/
+                            ]
+                        );
+                    }
                 }
 
             }
@@ -279,32 +335,43 @@ class ModulemanagerController extends Controller
 
     }
 
-    public function deleteModule($module_name) {
+    public function deleteModule($module_name, Request $request) {
 
         $msg = null;
         $suc_msg = null;
         $module = \Module::find($module_name);
+        // $module_name = $request->module_name;
 
         /** @var  $protected List of Modules we do not want to allow deletion */
-        $protected = ['Article','Comment','Tag','Thememanager','Modulemanager','Cryptocurrencies'];
+        // $protected = ['Article','Comment','Tag','Thememanager','Modulemanager','Cryptocurrencies'];
 
-        if( in_array($module_name, $protected) ) {
+        if( in_array($module_name, $this->protected_modules) ) {
 
-            Flash::error("<i class='fas fa-stop'></i> Cannot Delete Protected Module")->important();
-            return redirect("admin/modulemanager");
+            //Flash::error("<i class='fas fa-stop'></i> Cannot Delete Protected Module")->important();
+            // return redirect("admin/modulemanager");
+
+            $success = false;
+            $message = __('Cannot Delete Protected Module');
+
+            return response()->json([
+                'success' => $success,
+                'message' => $message,
+            ]);
+
         }
         try {
 
             if( $module ){
                 $module->delete();
                 MModule::where('slug', $module_name)->delete();
-                $suc_msg = 'Deleted Module';
+                $suc_msg = __('Module Has Been Delete');
+
             }
             else {
                 \Module::enable($module_name);
                 MModule::where('slug', $module_name)->delete();
                 $module->delete();
-                $suc_msg = 'Deleted Disabled Module';
+                $suc_msg = __('Deleted Disabled Module');
             }
 
             /*$output = new BufferedOutput;
@@ -316,12 +383,21 @@ class ModulemanagerController extends Controller
 
 
         if( $msg ){
-            Flash::error("<i class='fas fa-stop'></i> $msg")->important();
+            $success = false;
+            $message = $msg;
+            // Flash::error("<i class='fas fa-stop'></i> $msg")->important();
         }
         else {
-            Flash::success("<i class='fas fa-check'></i> $suc_msg")->important();
+            $success = true;
+            $message = $suc_msg;
+            //Flash::success("<i class='fas fa-check'></i> $suc_msg")->important();
         }
 
+
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
         // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return redirect("admin/modulemanager");
@@ -329,6 +405,21 @@ class ModulemanagerController extends Controller
     }
 
     public function settings($name){
+
+        if ( in_array($name, $this->protected_modules)){
+            Flash::error("<i class='fas fa-stop'></i> Settings Must Be Edited Manually For Protected Module ". $name)->important();
+             return back(); //Redirect::back(); //redirect("admin/$module_name");
+        }
+
+        /**
+         * If the module has its own settings method use it instead
+         */
+        if (class_exists("\Modules\\".$name."\Http\Controllers\SettingsController")) {
+
+            $func = "\Modules\\".$name."\Http\Controllers\SettingsController::settings";
+
+            return $func();
+        }
 
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -342,11 +433,19 @@ class ModulemanagerController extends Controller
         $$module_name_singular = MModule::where('slug', $name)->first();
         //dd( $settings );
 
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        $settings = config( strtolower($name) );
+        $targetModule = label_case($name);
+        /*foreach($settings as $key => $value ){
+            dd( $key );
+        }
+        dd( config( strtolower($module_name) ));*/
+
+        // Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return view(
             "modulemanager::backend.settings",
-            compact( 'module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular")
+            compact( 'module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action',
+                "$module_name_singular", 'settings', 'targetModule')
         );
     }
 }
