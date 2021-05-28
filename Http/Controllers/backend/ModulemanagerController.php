@@ -13,10 +13,7 @@ use Log;
 use Modules\Modulemanager\Entities\CryptoCurrencies;
 use Modules\Modulemanager\Entities\MModule;
 
-
 use Symfony\Component\Console\Output\BufferedOutput;
-
-
 
 
 class ModulemanagerController extends Controller

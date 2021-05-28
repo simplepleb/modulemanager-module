@@ -157,3 +157,41 @@
         }
     </script>
 @endpush
+
+@push('after-scripts')
+    <script type="text/javascript">
+        function deleteConfirmation(url) {
+            swal({
+                title: "{{ __('Delete Module') }}?",
+                text: "{{ __('Are you sure you want to delete, this cannot be undone!') }}",
+                type: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "{{ __('Yes, delete it') }}!",
+                cancelButtonText: "{{ __('No, cancel') }}!",
+                reverseButtons: !0
+            }).then(function (e) {
+                if (e.value === true) {
+                    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: {_token: CSRF_TOKEN},
+                        dataType: 'JSON',
+                        success: function (results) {
+                            if (results.success === true) {
+                                swal("{{ __('Done') }}!", results.message, "success");
+                                location.reload();
+                            } else {
+                                swal("{{ __('Error') }}!", results.message, "error");
+                            }
+                        }
+                    });
+                } else {
+                    e.dismiss;
+                }
+            }, function (dismiss) {
+                return false;
+            })
+        }
+    </script>
+@endpush
