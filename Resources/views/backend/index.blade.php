@@ -48,19 +48,38 @@
                             &nbsp;@endif
                         </h5>
                         <div class="card-body">{{ $settings->description }}</div>
-                        <div class="card-footer">
-                            <div class="btn-group mr-2 bg-primary align-content-center " role="group" aria-label="First group" style="margin:0px auto;">
-                                @if( in_array($settings->name, $active ) )
-                                    <a href="{{route("backend.$module_name.disable_module", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __('Disable') }}</button></a>
-                                @else
-                                    <a href="{{route("backend.$module_name.enable_module", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __('Enable') }}</button></a>
-                                @endif
-                                <a href="{{route("backend.$module_name.update_module", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __ ('Update') }}</button></a>
-                                @if ( !in_array($settings->name, $protected_modules ))
-                                    <button onclick="deleteConfirmation( '{{route("backend.$module_name.delete_module", $settings->name)}}' )"  class="btn btn-sm btn-primary" type="button">{{ __('Delete') }}</button>
-                                    <a href="{{route("backend.$module_name.settings", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __('Settings') }}</button></a>
-                                @endif
+                        <div class="card-footer text-center" style="padding-left: 0px; align-content: center; text-align: center;">
+                            <div class="btn-toolbar bg-secondary" role="toolbar" aria-label="Module Settings Controller" style="margin: 0px auto;">
+                                <div class="btn-group bg-secondary" role="group" aria-label="Module Control">
+                                    @if( in_array($settings->name, $active ) )
+                                        <a href="{{route("backend.$module_name.disable_module", $settings->name)}}" ><button class="btn btn-sm btn-secondary">{{ __('Disable') }}</button></a>
+                                    @else
+                                        <a href="{{route("backend.$module_name.enable_module", $settings->name)}}" ><button class="btn btn-sm btn-secondary" >{{ __('Enable') }}</button></a>
+                                    @endif
+                                    <a href="{{route("backend.$module_name.update_module", $settings->name)}}" ><button class="btn btn-sm btn-secondary" >{{ __ ('Update') }}</button></a>
+                                    @if ( !in_array($settings->name, $protected_modules ))
+                                        <button onclick="deleteConfirmation( '{{route("backend.$module_name.delete_module", $settings->name)}}' )"  class="btn btn-sm btn-secondary" >{{ __('Delete') }}</button>
+                                        <a href="{{route("backend.$module_name.settings", $settings->name)}}" ><button class="btn btn-sm btn-secondary" >{{ __('Settings') }}</button></a>
+                                    @endif
+                                </div>
                             </div>
+
+
+
+<!--                            <div class="w-100" style="text-align: center;">
+                                <div class="btn-group bg-primary align-content-center " role="group" aria-label="First group" style="margin:0px auto;">
+                                    @if( in_array($settings->name, $active ) )
+                                        <a href="{{route("backend.$module_name.disable_module", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __('Disable') }}</button></a>
+                                    @else
+                                        <a href="{{route("backend.$module_name.enable_module", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __('Enable') }}</button></a>
+                                    @endif
+                                    <a href="{{route("backend.$module_name.update_module", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __ ('Update') }}</button></a>
+                                    @if ( !in_array($settings->name, $protected_modules ))
+                                        <button onclick="deleteConfirmation( '{{route("backend.$module_name.delete_module", $settings->name)}}' )"  class="btn btn-sm btn-primary" type="button">{{ __('Delete') }}</button>
+                                        <a href="{{route("backend.$module_name.settings", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __('Settings') }}</button></a>
+                                    @endif
+                                </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>

@@ -337,7 +337,6 @@ class ModulemanagerController extends Controller
         $msg = null;
         $suc_msg = null;
         $module = \Module::find($module_name);
-        // $module_name = $request->module_name;
 
         /** @var  $protected List of Modules we do not want to allow deletion */
         // $protected = ['Article','Comment','Tag','Thememanager','Modulemanager','Cryptocurrencies'];
