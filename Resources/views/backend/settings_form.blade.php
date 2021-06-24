@@ -23,7 +23,7 @@
                     ?>
                     {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
                         @if($value_a === true || $value_a === false  )
-                            {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+                            {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"])->value($value_a) }}
                         @else
                             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
                         @endif
@@ -31,7 +31,7 @@
             </div>
             @endforeach
         @else
-            <div class="col-5">
+    <div class="col-5">
         <div class="form-group">
             <?php
             $field_name = $key;
