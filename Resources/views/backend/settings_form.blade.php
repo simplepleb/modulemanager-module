@@ -2,7 +2,7 @@
     @foreach($settings as $key => $value)
         @if( is_array($value))
             @foreach( $value as $key_a => $value_a)
-            <div class="col-5">
+            <div class="col-6">
                 <div class="form-group">
                     <?php
                     $field_name = $key_a;
@@ -31,43 +31,31 @@
             </div>
             @endforeach
         @else
-    <div class="col-5">
-        <div class="form-group">
-            <?php
-            $field_name = $key;
-            $field_lable = label_case($key);
-            $field_placeholder = $field_lable;
-            $required = "";
-            $disabled = "";
-            if( $key === 'name' || $key === 'slug'){
-                $disabled = "disabled";
-            }
+            <div class="col-12">
+                <div class="form-group">
+                    <?php
+                    $field_name = $key;
+                    $field_lable = label_case($key);
+                    $field_placeholder = $field_lable;
+                    $required = "";
+                    $disabled = "";
+                    if( $key === 'name' || $key === 'slug'){
+                        $disabled = "disabled";
+                    }
 
 
-            ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required","$disabled"]) }}
-        </div>
-    </div>
+                    ?>
+                    {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required","$disabled"]) }}
+                </div>
+            </div>
         @endif
     @endforeach
 
-
-
 </div>
 
-<div></div>
-
-
-
-
-@push('after-styles')
-
+@push('cs')
 @endpush
 
-@push ('after-scripts')
-
-
-
-
+@push ('js')
 @endpush

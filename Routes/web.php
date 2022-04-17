@@ -22,7 +22,7 @@ Route::prefix('modulemanager')->group(function() {
 *
 * --------------------------------------------------------------------
 */
-Route::group(['namespace' => '\Modules\Modulemanager\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'admin'], function () {
+Route::group(['namespace' => '\Modules\Modulemanager\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'app'], function () {
     /*
     * These routes need view-backend permission
     * (good if you want to allow more than one group in the backend,

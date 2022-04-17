@@ -7,12 +7,12 @@
     "authors": [
         {
             "name": "SimplePleb",
-            "email": "plebeian.tribune@protonmail.com"
+            "email": "just.one@simple-pleb.com"
         }
     ],
     "require": {
-        "php": "^7.3.0",
-        "nwidart/laravel-modules": "^8.0"
+        "php": "^8.0",
+        "nwidart/laravel-modules": "^9.0"
     },
     "suggest": {
         "spatie/laravel-permission": "To be able to set access by role and permissions",
