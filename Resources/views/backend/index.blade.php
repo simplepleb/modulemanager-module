@@ -1,119 +1,133 @@
-@extends('backend.layouts.app')
+@extends('layouts.app')
 
 @section('title') {{ __($module_action) }} Modules @stop
 
-@section('breadcrumbs')
+{{--@section('breadcrumbs')
 <x-backend-breadcrumbs>
     <x-backend-breadcrumb-item type="active" icon='{{ $module_icon }}'>{{ $module_title }}</x-backend-breadcrumb-item>
 </x-backend-breadcrumbs>
-@stop
+@stop--}}
 
 @section('content')
-<div class="card">
-    <div class="card-body">
+
+    @include('partials.header_space', [
+    'title' => __('Client List') ,
+    'description' => __('Manage all of your clients from here'),
+    'class' => 'col-lg-12'
+])
+    <div class="container-fluid mt--7">
         <div class="row">
-            <div class="col-8">
-                <h4 class="card-title mb-0">
-                    <i class="{{ $module_icon }}"></i> Modules <small class="text-muted">{{ __($module_action) }}</small>
-                </h4>
-                <div class="small text-muted" >
-                    @lang(":module_name Management Dashboard", ['module_name'=>Str::title('Modules')])
-                </div>
-            </div>
-            <!--/.col-->
-            <div class="col-4">
-                <div class="float-right">
-                    <x-buttons.create route='{{ route("backend.module_builder.builder.create") }}' title="{{__('Create')}} Module"/>
-                    <x-buttons.refresh route='{{ route("backend.$module_name.refresh") }}' title="{{__('Refresh List')}}"/>
-                </div>
-            </div>
-            <!--/.col-->
-        </div>
-        <!--/.row-->
-@if( $mmodules )
-        <div class="row mt-4">
-            @php $cnt = 0; @endphp
-            @foreach($mmodules as $mmodule)
-                @php
-                 $settings = json_decode($mmodule->settings);
-                $settings = $settings[0];
-                @endphp
-            <div class="col-4">
+            <div class="col-12">
                 <div class="card">
-                    {{--<img class="card-img-top" src="{{ $img_src }}" alt="Theme Name">--}}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ ucwords($settings->name) }}
-                            @if ( in_array($settings->name, $protected_modules ))
-                                <small class="float-right"><i class="fas fa-info-circle text-blue"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Protected Module"></i> </small>
-                            &nbsp;@endif
-                        </h5>
-                        <div class="card-body">{{ $settings->description }}</div>
-                        <div class="card-footer text-center" style="padding-left: 0px; align-content: center; text-align: center;">
-                            <div class="btn-toolbar bg-secondary" role="toolbar" aria-label="Module Settings Controller" style="margin: 0px auto;">
-                                <div class="btn-group bg-secondary" role="group" aria-label="Module Control">
-                                    @if( in_array($settings->name, $active ) )
-                                        <a href="{{route("backend.$module_name.disable_module", $settings->name)}}" ><button class="btn btn-sm btn-secondary">{{ __('Disable') }}</button></a>
-                                    @else
-                                        <a href="{{route("backend.$module_name.enable_module", $settings->name)}}" ><button class="btn btn-sm btn-secondary" >{{ __('Enable') }}</button></a>
-                                    @endif
-                                    <a href="{{route("backend.$module_name.update_module", $settings->name)}}" ><button class="btn btn-sm btn-secondary" >{{ __ ('Update') }}</button></a>
-                                    @if ( !in_array($settings->name, $protected_modules ))
-                                        <button onclick="deleteConfirmation( '{{route("backend.$module_name.delete_module", $settings->name)}}' )"  class="btn btn-sm btn-secondary" >{{ __('Delete') }}</button>
-                                        <a href="{{route("backend.$module_name.settings", $settings->name)}}" ><button class="btn btn-sm btn-secondary" >{{ __('Settings') }}</button></a>
-                                    @endif
-                                </div>
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h2 class="h3 mb-0">@lang(":module_name Management Dashboard", ['module_name'=>Str::title('Features')])</h2>
                             </div>
-
-
-
-<!--                            <div class="w-100" style="text-align: center;">
-                                <div class="btn-group bg-primary align-content-center " role="group" aria-label="First group" style="margin:0px auto;">
-                                    @if( in_array($settings->name, $active ) )
-                                        <a href="{{route("backend.$module_name.disable_module", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __('Disable') }}</button></a>
-                                    @else
-                                        <a href="{{route("backend.$module_name.enable_module", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __('Enable') }}</button></a>
-                                    @endif
-                                    <a href="{{route("backend.$module_name.update_module", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __ ('Update') }}</button></a>
-                                    @if ( !in_array($settings->name, $protected_modules ))
-                                        <button onclick="deleteConfirmation( '{{route("backend.$module_name.delete_module", $settings->name)}}' )"  class="btn btn-sm btn-primary" type="button">{{ __('Delete') }}</button>
-                                        <a href="{{route("backend.$module_name.settings", $settings->name)}}" ><button class="btn btn-sm btn-primary" type="button">{{ __('Settings') }}</button></a>
-                                    @endif
-                                </div>
-                            </div>-->
+                            <div class="col-auto">
+                                <x-buttons.create route='{{ route("backend.module_builder.builder.create") }}' title="{{__('Create')}} Module" small="true"/>
+                                <x-buttons.refresh route='{{ route("backend.$module_name.refresh") }}' title="{{__('Refresh List')}}" icon="fas fa-sync" small="true"/>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-                @php($cnt++)
-                @if($cnt == 3)@php( $cnt = 0)</div><div class="row mt-4"> @endif
-            @endforeach
-        </div>
- @endif
+                    <div class="card-body">
+                        @if( $mmodules )
+                            <div class="row ">
+                                @php $cnt = 0; @endphp
+                                @foreach($mmodules as $mmodule)
+                                    @php
+                                        $settings = json_decode($mmodule->settings);
+                                       $settings = $settings[0];
+                                    @endphp
+                                    @if ( !in_array($settings->name, $protected_modules ))
+                                        <div class="col-4">
+                                            <div class="card shadow-lg">
+                                                {{--<img class="card-img-top" src="{{ $img_src }}" alt="Theme Name">--}}
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ ucwords($settings->name) }}
+                                                        @if ( in_array($settings->name, $protected_modules ))
+                                                            <small class="float-right"><i class="fas fa-info-circle text-blue"  data-toggle="tooltip" data-placement="right" title="" data-original-title="{{ __('Protected Module') }}"></i> </small>
+                                                            &nbsp;@endif
+                                                    </h5>
+                                                    {{--<div class="card-body">--}}
+                                                        <span class="text-sm">{{ $settings->description }}</span>
+                                                        @if($settings->keywords)
+                                                            <ul class="text-sm mt-2">
+                                                                @foreach( $settings->keywords as $keyword )
+                                                                    <li>{{ $keyword }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @endif
+                                                    {{--</div>--}}
+                                                    <div class="card-footer" >
+                                                        {{--<div class="btn-toolbar bg-secondary m-0 flex-column flex-sm-row" role="toolbar" aria-label="Module Settings Controller" >--}}
+                                                        {{--<div class="btn-toolbar justify-content-between btn-group-sm" role="toolbar" aria-label="Module Actions">--}}
+                                                            <div class="btn-group btn-group-sm bg-secondary ml-0" role="group" aria-label="Module Control">
+                                                                @if( in_array($settings->name, $active ) )
+                                                                    <a href="{{route("backend.$module_name.disable_module", $settings->name)}}" >
+                                                                        <button class="btn btn-sm btn-outline-warning mr-2">{{ __('Disable') }}</button>
+                                                                    </a>
+                                                                @else
+                                                                    <a href="{{route("backend.$module_name.enable_module", $settings->name)}}" >
+                                                                        <button class="btn btn-sm btn-success ml-2" >{{ __('Enable') }}</button>
+                                                                    </a>
+                                                                @endif
 
-    </div>
-    <div class="card-footer">
-        <div class="row">
-            <div class="col-7">
-                <div class="float-left">
-                    Total {{ $$module_name->total() }} Modules
-                </div>
-            </div>
-            <div class="col-5">
-                <div class="float-right">
-                    {!! $$module_name->render() !!}
+                                                                {{--
+                                                                <a href="{{route("backend.$module_name.update_module", $settings->name)}}" ><button class="btn btn-sm btn-secondary" >{{ __ ('Update') }}</button></a>
+                                                                <button onclick="deleteConfirmation( '{{route("backend.$module_name.delete_module", $settings->name)}}' )"  class="btn btn-sm btn-secondary" >{{ __('Delete') }}</button>
+                                                                --}}
+                                                                @if ( !in_array($settings->name, $protected_modules ))
+                                                                    <a href="{{route("backend.$module_name.settings", $settings->name)}}" >
+                                                                        <button class="btn btn-sm btn-outline-info" >{{ __('Settings') }}</button>
+                                                                    </a>
+                                                                @endif
+                                                            {{--</div>--}}
+                                                            {{--</div>--}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @php($cnt++)
+                                        @if($cnt == 3)@php( $cnt = 0)</div><div class="row mt-4"> @endif
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endif
+
+                    </div>
+
+                    {{--<div class="card-footer">
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="float-left">
+                                    Total {{ $$module_name->total() }} Modules
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="float-right">
+                                    {!! $$module_name->render() !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>--}}
                 </div>
             </div>
         </div>
+        @include('layouts.footers.auth')
     </div>
-</div>
 
+
+@stop
+@push('css')
     <style>
 
         #control_module .btn-sm{
             position: relative;
             vertical-align: center;
             margin: 0px;
-            height: 100x;
+            height: 100px;
             padding: 20px 20px;
             font-size: 4px;
             color: white;
@@ -137,9 +151,8 @@
             background: #45E1E8;
         }
     </style>
-@stop
-
-@push('after-scripts')
+@endpush
+@push('js')
     <script type="text/javascript">
         function deleteConfirmation(url) {
             swal({
@@ -177,40 +190,3 @@
     </script>
 @endpush
 
-@push('after-scripts')
-    <script type="text/javascript">
-        function deleteConfirmation(url) {
-            swal({
-                title: "{{ __('Delete Module') }}?",
-                text: "{{ __('Are you sure you want to delete, this cannot be undone!') }}",
-                type: "warning",
-                showCancelButton: !0,
-                confirmButtonText: "{{ __('Yes, delete it') }}!",
-                cancelButtonText: "{{ __('No, cancel') }}!",
-                reverseButtons: !0
-            }).then(function (e) {
-                if (e.value === true) {
-                    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                    $.ajax({
-                        type: 'POST',
-                        url: url,
-                        data: {_token: CSRF_TOKEN},
-                        dataType: 'JSON',
-                        success: function (results) {
-                            if (results.success === true) {
-                                swal("{{ __('Done') }}!", results.message, "success");
-                                location.reload();
-                            } else {
-                                swal("{{ __('Error') }}!", results.message, "error");
-                            }
-                        }
-                    });
-                } else {
-                    e.dismiss;
-                }
-            }, function (dismiss) {
-                return false;
-            })
-        }
-    </script>
-@endpush

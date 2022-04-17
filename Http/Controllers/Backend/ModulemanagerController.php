@@ -10,8 +10,9 @@ use Auth;
 use Carbon\Carbon;
 use Flash;
 use Log;
-use Modules\Modulemanager\Entities\CryptoCurrencies;
+
 use Modules\Modulemanager\Entities\MModule;
+use Menu;
 
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -42,6 +43,28 @@ class ModulemanagerController extends Controller
     }
 
     /**
+     * Create Menu for Module
+     */
+    public static function generateModuleMenu()
+    {
+
+        Menu::modify('super_admin', function ($menu) {
+            if (\Auth::user()->can('edit_settings')) {
+
+                $menu->add([
+                    'url' => route('backend.modulemanager.index'),
+                    'title' => __('Feature Manager'),
+                    'icon' => 'ni ni-briefcase-24 text-primary'
+                ])/*->order(2)*/
+                ;
+
+            }
+
+        });
+
+    }
+
+    /**
      * Display a listing of the resource.
      * @return Renderable
      */
@@ -60,6 +83,8 @@ class ModulemanagerController extends Controller
         $mmodules = $module_model::get();
 
         $active = array();
+        $in_active = array();
+
         $enabled = \Module::allEnabled();
         foreach( $enabled as $an){
             $active[] = $an->getName();
@@ -227,8 +252,8 @@ class ModulemanagerController extends Controller
                     $module_status = $vals[0];
 
                     // dd( $vals->slug );
-                    $mmodule = MModule::where('slug', $module_setings->alias)->first();
-                    if( !$mmodule ) {
+                    // $mmodule = MModule::where('slug', $module_setings->alias)->first();
+                    // if( !$mmodule ) {
                         $mmodule  = MModule::updateOrCreate(
                             [
                                 'slug' => $module_setings->alias
@@ -239,15 +264,17 @@ class ModulemanagerController extends Controller
                                 /*'active' => 0*/
                             ]
                         );
-                    }
+                    // }
                 }
+                else
+                    return redirect()->back()->with('error', __('File Missing.'));
 
             }
         }
 
-        Flash::success("<i class='fas fa-check'></i> Modules Refreshed")->important();
+        // Flash::success("<i class='fas fa-check'></i> Modules Refreshed")->important();
+        return redirect()->back()->with('success', __('Module Files Refreshed.'));
 
-        return redirect("admin/$module_name");
     }
 
     /**
@@ -276,8 +303,8 @@ class ModulemanagerController extends Controller
         }
 
         // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        return redirect()->back()->with('success', $suc_msg);
 
-        return redirect("admin/modulemanager");
     }
 
     public function disable($module_name) {
@@ -299,10 +326,9 @@ class ModulemanagerController extends Controller
         else {
             Flash::success("<i class='fas fa-check'></i> $suc_msg")->important();
         }
-
+        return redirect()->back()->with('success', 'Module Is Now Disabled');
         // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
-
-        return redirect("admin/modulemanager");
+        return redirect()->back()->with('success', $suc_msg);
 
     }
 
@@ -328,7 +354,7 @@ class ModulemanagerController extends Controller
 
         // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return redirect("admin/modulemanager");
+        return redirect()->back()->with('success', 'Module Is Now Enabled');
 
     }
 
@@ -396,24 +422,26 @@ class ModulemanagerController extends Controller
         ]);
         // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return redirect("admin/modulemanager");
+        return redirect()->back()->with('success', $suc_msg);
 
     }
 
     public function settings($name){
 
         if ( in_array($name, $this->protected_modules)){
-            Flash::error("<i class='fas fa-stop'></i> Settings Must Be Edited Manually For Protected Module ". $name)->important();
-             return back(); //Redirect::back(); //redirect("admin/$module_name");
+            // Flash::error("<i class='fas fa-stop'></i> Settings Must Be Edited Manually For Protected Module ". $name)->important();
+            return redirect()->back()->with('success', __('Settings Must Be Edited Manually For Protected Module.'));
         }
 
         /**
          * If the module has its own settings method use it instead
          */
         if (class_exists("\Modules\\".$name."\Http\Controllers\SettingsController")) {
-
             $func = "\Modules\\".$name."\Http\Controllers\SettingsController::settings";
-
+            return $func();
+        }
+        elseif(class_exists("\Modules\\".$name."\Http\Controllers\Backend\SettingsController")){
+            $func = "\Modules\\".$name."\Http\Controllers\Backend\SettingsController::settings";
             return $func();
         }
 
