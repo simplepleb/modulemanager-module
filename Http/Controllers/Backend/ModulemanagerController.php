@@ -458,6 +458,9 @@ class ModulemanagerController extends Controller
         //dd( $settings );
 
         $settings = config( strtolower($name) );
+        if( $settings === null) {
+            return redirect()->back()->with('error', __('Feature has no editable settings.'));
+        }
         $targetModule = label_case($name);
         /*foreach($settings as $key => $value ){
             dd( $key );

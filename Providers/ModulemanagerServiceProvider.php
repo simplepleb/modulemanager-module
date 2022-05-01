@@ -31,8 +31,8 @@ class ModulemanagerServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
 
         // adding global middleware
-        $kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
-        $kernel->pushMiddleware('Modules\Modulemanager\Http\Middleware\GenerateMenus');
+        /*$kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
+        $kernel->pushMiddleware('Modules\Modulemanager\Http\Middleware\GenerateMenus');*/
 
         // register commands
         $this->registerCommands('\Modules\Modulemanager\Console');

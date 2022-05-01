@@ -1,4 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.app', [
+    'title' => __('Module Builder'),
+    'parentSection' => 'app-settings',
+    'elementName' => 'module-builder'
+])
+
 
 @section('title') Module Builder @endsection
 
@@ -12,12 +17,18 @@
 @endsection--}}
 
 @section('content')
-    @include('partials.header_space', [
-'title' => __('Client List') ,
-'description' => __('Manage all of your clients from here'),
-'class' => 'col-lg-12'
-])
-    <div class="container-fluid mt--7">
+    @component('layouts.headers.auth')
+        @component('layouts.headers.breadcrumbs')
+            @slot('title')
+                {{ __('Module Builder') }}
+            @endslot
+
+            <li class="breadcrumb-item"><a href="{{ route('backend.modulemanager.index') }}">{{ __('Feature Management') }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ __('Builder') }}</li>
+        @endcomponent
+    @endcomponent
+
+    <div class="container-fluid mt--6">
         <div class="row">
             <div class="col-12">
                 <div class="card">

@@ -1,6 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.app', [
+    'title' => __('Feature Manager'),
+    'parentSection' => 'app-settings',
+    'elementName' => 'feature-manager'
+])
+
 
 @section('title') {{ __($module_action) }} Modules @stop
+@section('page-title') {{ __($module_action) }} Modules @stop
 
 {{--@section('breadcrumbs')
 <x-backend-breadcrumbs>
@@ -9,13 +15,17 @@
 @stop--}}
 
 @section('content')
+    @component('layouts.headers.auth')
+        @component('layouts.headers.breadcrumbs')
+            @slot('title')
+                {{ __('Feature Management') }}
+            @endslot
 
-    @include('partials.header_space', [
-    'title' => __('Client List') ,
-    'description' => __('Manage all of your clients from here'),
-    'class' => 'col-lg-12'
-])
-    <div class="container-fluid mt--7">
+            <li class="breadcrumb-item"><a href="{{ route('backend.modulemanager.index') }}">{{ __('Feature Management') }}</a></li>
+
+        @endcomponent
+    @endcomponent
+    <div class="container-fluid mt--6">
         <div class="row">
             <div class="col-12">
                 <div class="card">

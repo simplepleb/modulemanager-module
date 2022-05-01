@@ -1,23 +1,25 @@
-@extends('layouts.app')
+@extends('layouts.app', [
+    'title' => $targetModule. __(' Settings'),
+    'parentSection' => 'app-settings',
+    'elementName' => 'feature-manager'
+])
 
 @section('title') {{ __($module_action) }} {{ $module_title }} @endsection
 
-{{--@section('breadcrumbs')
-<x-backend-breadcrumbs>
-    <x-backend-breadcrumb-item route='{{route("backend.$module_name.index")}}' icon='{{ $module_icon }}' >
-        {{ $module_title }} ( {{ $targetModule }} )
-    </x-backend-breadcrumb-item>
-    <x-backend-breadcrumb-item type="active">{{ __($module_action) }}</x-backend-breadcrumb-item>
-</x-backend-breadcrumbs>
-@endsection--}}
 
 @section('content')
-    @include('partials.header_space', [
-    'title' => $targetModule ,
-    'description' => __('Manage settings for '). $targetModule,
-    'class' => 'col-lg-12'
-])
-    <div class="container-fluid mt--7">
+    @component('layouts.headers.auth')
+        @component('layouts.headers.breadcrumbs')
+            @slot('title')
+                {{ __('Manage settings for '). $targetModule }}
+            @endslot
+
+            <li class="breadcrumb-item"><a href="{{ route('backend.roles.index') }}">{{ __('Role Management') }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ __('List') }}</li>
+        @endcomponent
+    @endcomponent
+
+    <div class="container-fluid mt--6">
         <div class="row">
             <div class="col-12">
                 <div class="card">
